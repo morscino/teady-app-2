@@ -2,9 +2,17 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/morscino/teady-2-app/facade"
 )
 
-func UserRoutes(router *gin.Engine) {
+type UserRoute struct {
+	UserFacacde facade.UserFascade
+}
+
+func NewUserRoute(f facade.UserFascade) *UserRoute {
+	return &UserRoute{UserFacacde: f}
+}
+func (u UserRoute) UserRoutes(router *gin.Engine) {
 	UserGroup := router.Group("/user")
 	{
 		UserGroup.GET("/", func(c *gin.Context) {
@@ -12,5 +20,7 @@ func UserRoutes(router *gin.Engine) {
 				"message": "users connected",
 			})
 		})
+
+		UserGroup.POST("/create-user", u.UserFacacde.CreateUser)
 	}
 }
