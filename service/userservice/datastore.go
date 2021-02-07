@@ -2,11 +2,11 @@ package userservice
 
 import "github.com/morscino/teady-2-app/models/usermodel"
 
-func NewUserService() UserRepository {
-	return &UserService{}
+func NewUserService(database interface{}) UserRepository {
+	return &UserService{db: database}
 }
 
 func (u UserService) Create(user usermodel.User) usermodel.User {
-	u.users = append(u.users, user)
+	//u.users = append(u.users, user)
 	return user
 }

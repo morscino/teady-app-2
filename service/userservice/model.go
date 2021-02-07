@@ -9,7 +9,7 @@ type UserRepository interface {
 }
 
 type UserService struct {
-	users []usermodel.User
+	db interface{}
 }
 
 type UserRegistrationData struct {
