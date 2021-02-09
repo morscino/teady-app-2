@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/morscino/teady-2-app/handlers"
-	"github.com/morscino/teady-2-app/service/userservice"
+	"github.com/morscino/teady-app-2/handlers"
+	"github.com/morscino/teady-app-2/service/userservice"
 )
 
 type UserFascade struct {

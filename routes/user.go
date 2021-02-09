@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/morscino/teady-2-app/facade"
+	"github.com/morscino/teady-app-2/facade"
 )
 
 type UserRoute struct {

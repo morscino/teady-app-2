@@ -2,9 +2,8 @@ package handlers
 
 import (
 	"github.com/google/uuid"
-
-	"github.com/morscino/teady-2-app/models/usermodel"
-	"github.com/morscino/teady-2-app/service/userservice"
+	"github.com/morscino/teady-app-2/models/usermodel"
+	"github.com/morscino/teady-app-2/service/userservice"
 )
 
 type UserHandler struct {

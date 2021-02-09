@@ -1,8 +1,6 @@
 package userservice
 
-import (
-	"github.com/morscino/teady-2-app/models/usermodel"
-)
+import "github.com/morscino/teady-app-2/models/usermodel"
 
 type UserRepository interface {
 	Create(user usermodel.User) usermodel.User
