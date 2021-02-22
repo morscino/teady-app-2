@@ -16,6 +16,6 @@ type UserRegistrationData struct {
 	Username        string `json:"username" binding:"required"`
 	Email           string `json:"email" binding:"required"`
 	PhoneNumber     string `json:"phone_number"`
-	Password        string `json:"password" `
-	ConfirmPassword string `json:"confirm_password"`
+	Password        string `json:"password" binding:"required"`
+	ConfirmPassword string `json:"confirm_password" binding:"required"`
 }

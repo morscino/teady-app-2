@@ -39,6 +39,7 @@ func main() {
 
 	//All routes
 	routes.HomeRoutes(server)
+
 	UserRepository := userservice.NewUserService(db)
 	UserHandler := handlers.NewUserHandler(UserRepository)
 	UserFacade := *facade.NewUserFacade(ctx, UserHandler)
