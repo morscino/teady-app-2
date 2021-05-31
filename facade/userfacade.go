@@ -2,6 +2,7 @@ package facade
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"regexp"
 	"strings"
@@ -51,68 +52,61 @@ func (f UserFascade) CreateUser(c *gin.Context) {
 		return
 	}
 	//ensure username is unique
-	if !usernameIsUnique(strings.ToLower(input.Username)) {
+	if !f.usernameIsUnique(strings.ToLower(input.Username)) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Username already exists"})
 		return
 	}
 	//ensure email is unique
-	if !emailIsUnique(strings.ToLower(input.Email)) {
+	if !f.emailIsUnique(strings.ToLower(input.Email)) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "User with email already exists"})
 		return
 	}
 	//ensure phone number is unique
-	if !phoneIsUnique(strings.ToLower(input.PhoneNumber)) {
+	if !f.phoneIsUnique(strings.ToLower(input.PhoneNumber)) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "User with Phone Number already exists"})
 		return
 	}
-	user := f.userhandler.CreateUser(input)
+	user, err := f.userhandler.CreateUser(input)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
 
 	c.JSON(http.StatusOK, gin.H{"data": user})
 
 }
 
-func phoneIsUnique(phone string) bool {
+func (f UserFascade) phoneIsUnique(phone string) bool {
 	exists := true
-	users := []string{"+23467547876"}
-	for _, v := range users {
-		if v == phone {
-			exists = false
 
-		}
-		if exists == false {
-			break
-		}
+	PhoneNumber := f.userhandler.UserService.GetUserByPhoneNumber(phone)
+
+	if PhoneNumber != "" {
+		exists = false
 	}
 
 	return exists
 }
-func usernameIsUnique(username string) bool {
+func (f UserFascade) usernameIsUnique(username string) bool {
 	exists := true
-	users := []string{"morscino"}
-	for _, v := range users {
-		if v == username {
-			exists = false
 
-		}
-		if exists == false {
-			break
-		}
+	Username := f.userhandler.UserService.GetUserByUsername(username)
+	fmt.Println("username logged " + Username)
+
+	if Username != "" {
+		exists = false
 	}
 
 	return exists
 }
 
-func emailIsUnique(email string) bool {
+func (f UserFascade) emailIsUnique(email string) bool {
 	exists := true
-	users := []string{"yourpapa@ymail.com"}
-	for _, v := range users {
-		if v == email {
-			exists = false
 
-		}
-		if exists == false {
-			break
-		}
+	Email := f.userhandler.UserService.GetUserByEmail(email)
+
+	if Email != "" {
+		exists = false
 	}
 
 	return exists

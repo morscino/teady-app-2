@@ -1,13 +1,19 @@
 package userservice
 
-import "github.com/morscino/teady-app-2/models/usermodel"
+import (
+	"github.com/morscino/teady-app-2/models/usermodel"
+	"gorm.io/gorm"
+)
 
 type UserRepository interface {
-	Create(user usermodel.User) usermodel.User
+	Create(user usermodel.User) (usermodel.User, error)
+	GetUserByPhoneNumber(phone string) string
+	GetUserByUsername(username string) string
+	GetUserByEmail(email string) string
 }
 
 type UserService struct {
-	db interface{}
+	db *gorm.DB
 }
 
 type UserRegistrationData struct {

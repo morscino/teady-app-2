@@ -18,7 +18,7 @@ func NewUserHandler(u userservice.UserRepository) UserHandler {
 	return UserHandler{UserService: u}
 }
 
-func (u UserHandler) CreateUser(input userservice.UserRegistrationData) usermodel.User {
+func (u UserHandler) CreateUser(input userservice.UserRegistrationData) (usermodel.User, error) {
 	//hash password
 	hashedPassword, err := password.NewPasswordHash(input.Password)
 	if err != nil {
@@ -35,7 +35,13 @@ func (u UserHandler) CreateUser(input userservice.UserRegistrationData) usermode
 		Salt:        hashedPassword.Salt,
 		CreatedAt:   time.Now(),
 	}
-	NewUser := u.UserService.Create(user)
+	NewUser, err := u.UserService.Create(user)
 
-	return NewUser
+	if err != nil {
+		//log error and notify facade
+		return NewUser, err
+
+	}
+
+	return NewUser, nil
 }
